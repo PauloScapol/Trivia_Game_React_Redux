@@ -56,10 +56,10 @@ export default class Game extends React.Component {
     }
   };
 
-  handleAnswer = ({ target: { value } }) => {
-    const { returnTrivia, count } = this.state;
+  handleAnswer = () => {
+    // const { returnTrivia, count } = this.state;
     this.setState({ showColors: true });
-    const answer = value === returnTrivia.results[count].correct_answer;
+    // const answer = value === returnTrivia.results[count].correct_answer;
     // if (answer) {
 
     // }
