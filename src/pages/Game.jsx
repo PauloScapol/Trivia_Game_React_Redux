@@ -6,8 +6,9 @@ import '../styles/game.css';
 export default class Game extends React.Component {
   state = {
     returnTrivia: [],
-    count: 0,
     alternatives: [],
+    count: 0,
+    showColors: false,
   };
 
   componentDidMount() {
@@ -38,6 +39,8 @@ export default class Game extends React.Component {
   }
 
   handleClick = () => {
+    this.setState((prev) => ({ count: prev.count + 1 }));
+    this.setState({ showColors: false });
     const { count, returnTrivia } = this.state;
     const { history } = this.props;
     const maxNum = 4;
@@ -53,8 +56,17 @@ export default class Game extends React.Component {
     }
   };
 
+  handleAnswer = () => {
+    // const { returnTrivia, count } = this.state;
+    this.setState({ showColors: true });
+    // const answer = value === returnTrivia.results[count].correct_answer;
+    // if (answer) {
+
+    // }
+  };
+
   render() {
-    const { returnTrivia, count, alternatives } = this.state;
+    const { returnTrivia, count, alternatives, showColors } = this.state;
     return (
       <>
         <Header />
@@ -71,22 +83,29 @@ export default class Game extends React.Component {
                 data-testid="answer-options"
               >
                 {alternatives.map(
-                  (alternative, i) => (
-                    <button
-                      data-testid={ alternative
+                  (alternative, i) => {
+                    const isCorrect = alternative
+                    === returnTrivia.results[count].correct_answer;
+                    return (
+                      <button
+                        style={ showColors
+                          ? { border: `3px solid 
+                          ${isCorrect ? 'rgb(6, 240, 15)' : 'red'}` } : null }
+                        data-testid={ alternative
                         === returnTrivia.results[count].correct_answer
-                        ? 'correct-answer' : `wrong-answer-${i}` }
-                      onClick={ () => {
-                        this.setState((prev) => ({ count: prev.count + 1 }));
-                        this.handleClick();
-                      } }
-                      key={ alternative }
-                    >
-                      {alternative}
-                    </button>
-                  ),
+                          ? 'correct-answer' : `wrong-answer-${i}` }
+                        onClick={ (event) => {
+                          this.handleAnswer(event);
+                        } }
+                        key={ alternative }
+                      >
+                        {alternative}
+                      </button>
+                    );
+                  },
                 )}
               </div>
+              <button onClick={ () => this.handleClick() }>Próxima Pergunta</button>
             </div>
           ) : null}
         </h2>
