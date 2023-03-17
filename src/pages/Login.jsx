@@ -15,13 +15,17 @@ class Login extends React.Component {
 
   render() {
     const { email, name } = this.state;
+    const { history } = this.props;
     return (
       <form
-        onSubmit={ (e) => {
-          const { dispatch } = this.props;
+        onSubmit={ async (e) => {
           e.preventDefault();
-          console.log('entrou');
+          const { dispatch } = this.props;
+          const response = await fetch('https://opentdb.com/api_token.php?command=request');
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
           dispatch(loginForm(name, email));
+          history.push('/game');
         } }
       >
         <label htmlFor="email">
@@ -57,5 +61,8 @@ class Login extends React.Component {
 }
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 export default connect(null, null)(Login);
