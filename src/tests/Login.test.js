@@ -1,7 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import App from '../App';
-import Login from '../pages/Login';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/react';
