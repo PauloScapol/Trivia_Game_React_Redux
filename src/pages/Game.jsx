@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
+import { setScore } from '../redux/actions';
 import '../styles/game.css';
 
-export default class Game extends React.Component {
+class Game extends React.Component {
   state = {
     returnTrivia: [],
     alternatives: [],
@@ -13,6 +15,8 @@ export default class Game extends React.Component {
     isRunning: true,
     timeOutID: null,
     disabled: false,
+    score: 0,
+    isShowing: false,
   };
 
   componentDidMount() {
@@ -43,12 +47,16 @@ export default class Game extends React.Component {
   componentDidUpdate(prevState) {
     const lintChato = 3;
     const { history } = this.props;
-    const { returnTrivia } = this.state;
+    const { returnTrivia, score } = this.state;
     if (
       prevState.returnTrivia !== returnTrivia
       && returnTrivia.response_code === lintChato
     ) {
       history.push('/');
+    }
+    if (prevState.score !== score) {
+      const { dispatch } = this.props;
+      dispatch(setScore(score));
     }
   }
 
@@ -65,6 +73,7 @@ export default class Game extends React.Component {
       } else if (time === 0) {
         this.setState({ disabled: true });
         this.setState({ showColors: true });
+        this.setState({ isShowing: true });
       }
     }, seconds);
     this.setState({ timeOutID });
@@ -81,6 +90,7 @@ export default class Game extends React.Component {
     this.setState({ showColors: false });
     this.setState({ isRunning: true });
     this.setState({ time: 30 });
+    this.setState({ isShowing: false });
     this.startTimer();
     const { count, returnTrivia } = this.state;
     const { history } = this.props;
@@ -96,24 +106,48 @@ export default class Game extends React.Component {
     );
     this.setState({ alternatives: shuffleAlternatives });
     if (count === maxNum) {
-      history.push('/');
+      history.push('/feedback');
     }
   };
 
-  handleAnswer = () => {
-    // { target: { value } }
+  handleAnswer = (alternative) => {
     this.stopTimer();
-    // const { returnTrivia, count, time } = this.state;
+    const initialScore = 10;
+    const { returnTrivia, count, time } = this.state;
     this.setState({ showColors: true });
-    // const answer = value === returnTrivia.results[count].correct_answer;
+    this.setState({ disabled: true });
+    this.setState({ isShowing: true });
+    const answer = alternative === returnTrivia.results[count].correct_answer;
 
-    // if (answer) {
+    if (answer) {
+      let total = 0;
+      const easy = 1;
+      const medium = 2;
+      const hard = 3;
+      switch (returnTrivia.results[count].difficulty) {
+      case 'easy':
+        total = total + initialScore + (time) * easy;
+        this.setState((prev) => ({ score: prev.score + total }));
 
-    // }
+        break;
+      case 'medium':
+        total = total + initialScore + (time) * medium;
+        this.setState((prev) => ({ score: prev.score + total }));
+
+        break;
+      case 'hard':
+        total = total + initialScore + (time) * hard;
+        this.setState((prev) => ({ score: prev.score + total }));
+        break;
+      default:
+        break;
+      }
+    }
   };
 
   render() {
-    const { returnTrivia, count, alternatives, showColors, time, disabled } = this.state;
+    const { returnTrivia, count, alternatives, showColors, time,
+      disabled, isShowing } = this.state;
     return (
       <>
         <Header />
@@ -148,8 +182,8 @@ export default class Game extends React.Component {
                           ? 'correct-answer'
                           : `wrong-answer-${i}`
                       }
-                      onClick={ (event) => {
-                        this.handleAnswer(event);
+                      onClick={ () => {
+                        this.handleAnswer(alternative);
                       } }
                       key={ alternative }
                     >
@@ -158,9 +192,13 @@ export default class Game extends React.Component {
                   );
                 })}
               </div>
-              <button onClick={ () => this.handleClick() }>
-                Próxima Pergunta
-              </button>
+              {
+                isShowing ? (
+                  <button data-testid="btn-next" onClick={ () => this.handleClick() }>
+                    Next
+                  </button>
+                ) : null
+              }
             </div>
           ) : null}
         </h2>
@@ -172,4 +210,6 @@ Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
+export default connect(null, null)(Game);
