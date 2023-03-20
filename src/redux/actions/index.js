@@ -4,12 +4,14 @@ export const loginForm = (name, email) => ({
     name },
 });
 
-export const setScore = (score) => {
-  console.log(score);
-  return (
-    {
-      type: 'SCORE',
-      payload: score,
-    }
-  );
-};
+export const setScore = (score) => (
+  {
+    type: 'SCORE',
+    payload: score,
+  }
+);
+
+export const setAcertos = () => ({
+  type: 'ACERTOS',
+}
+);
