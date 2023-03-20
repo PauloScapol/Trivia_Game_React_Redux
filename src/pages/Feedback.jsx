@@ -4,12 +4,17 @@ import { connect } from 'react-redux';
 
 class Feedback extends React.Component {
   render() {
+    const minAssertions = 3;
     const { score, assertions } = this.props;
+    console.log(score);
     return (
       <div>
         <h1 data-testid="feedback-text">Feedback</h1>
         <h1 data-testid="feedback-total-score">{score}</h1>
         <h1 data-testid="feedback-total-question">{assertions}</h1>
+        <h1 data-testid="feedback-text">
+          {assertions < minAssertions ? 'Could be better...' : 'Well Done!'}
+        </h1>
       </div>
     );
   }
