@@ -6,7 +6,7 @@ import Header from '../components/Header';
 class Feedback extends React.Component {
   render() {
     const minAssertions = 3;
-    const { score, assertions } = this.props;
+    const { score, assertions, history } = this.props;
     return (
       <>
         <Header />
@@ -17,6 +17,16 @@ class Feedback extends React.Component {
           <h1 data-testid="feedback-text">
             {assertions < minAssertions ? 'Could be better...' : 'Well Done!'}
           </h1>
+        </div>
+        <div>
+          <button
+            type="button"
+            data-testid="btn-ranking"
+            onClick={ () => history.push('/ranking') }
+          >
+            Ranking
+
+          </button>
         </div>
       </>
     );
@@ -32,5 +42,8 @@ Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   // name: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 export default connect(mapStateToProps)(Feedback);
