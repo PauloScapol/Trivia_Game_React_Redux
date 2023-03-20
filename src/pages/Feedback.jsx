@@ -1,18 +1,13 @@
 import React from 'react';
-import Header from '../components/Header';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 
 class Feedback extends React.Component {
   render() {
     const minAssertions = 3;
     const { score, assertions } = this.props;
     return (
-      <div>
-        <h1 data-testid="feedback-text">Feedback</h1>
-        <h1 data-testid="feedback-total-score">{score}</h1>
-        <h1 data-testid="feedback-total-question">{assertions}</h1>
-      </div>
       <>
         <Header />
         <div>
