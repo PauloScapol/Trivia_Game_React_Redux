@@ -7,7 +7,6 @@ class Feedback extends React.Component {
   render() {
     const minAssertions = 3;
     const { score, assertions } = this.props;
-    console.log(score);
     return (
       <div>
         <h1 data-testid="feedback-text">Feedback</h1>
