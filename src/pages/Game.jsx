@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import { setScore } from '../redux/actions';
+import { setScore, setAcertos } from '../redux/actions';
 import '../styles/game.css';
 
 class Game extends React.Component {
@@ -109,6 +109,7 @@ class Game extends React.Component {
     const answer = alternative === returnTrivia.results[count].correct_answer;
 
     if (answer) {
+      dispatch(setAcertos());
       let total = 0;
       const easy = 1;
       const medium = 2;
