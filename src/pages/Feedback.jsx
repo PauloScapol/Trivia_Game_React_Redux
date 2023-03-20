@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../components/Header';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -6,11 +7,14 @@ class Feedback extends React.Component {
   render() {
     const { score, assertions } = this.props;
     return (
-      <div>
-        <h1 data-testid="feedback-text">Feedback</h1>
-        <h1 data-testid="feedback-total-score">{score}</h1>
-        <h1 data-testid="feedback-total-question">{assertions}</h1>
-      </div>
+      <>
+        <Header />
+        <div>
+          <h1 data-testid="feedback-text">Feedback</h1>
+          <h1 data-testid="feedback-total-score">{score}</h1>
+          <h1 data-testid="feedback-total-question">{assertions}</h1>
+        </div>
+      </>
     );
   }
 }
