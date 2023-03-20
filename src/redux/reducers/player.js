@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
   name: '',
   assertions: 0,
-  score: '',
+  score: 0,
   gravatarEmail: '',
 };
 
@@ -17,7 +17,7 @@ const player = (state = INITIAL_STATE, action) => {
     console.log(action.payload);
     return {
       ...state,
-      score: action.payload,
+      score: state.score + action.payload,
     };
   default:
     return state;

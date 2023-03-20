@@ -15,7 +15,6 @@ class Game extends React.Component {
     isRunning: true,
     timeOutID: null,
     disabled: false,
-    score: 0,
     isShowing: false,
   };
 
@@ -47,16 +46,12 @@ class Game extends React.Component {
   componentDidUpdate(prevState) {
     const lintChato = 3;
     const { history } = this.props;
-    const { returnTrivia, score } = this.state;
+    const { returnTrivia } = this.state;
     if (
       prevState.returnTrivia !== returnTrivia
       && returnTrivia.response_code === lintChato
     ) {
       history.push('/');
-    }
-    if (prevState.score !== score) {
-      const { dispatch } = this.props;
-      dispatch(setScore(score));
     }
   }
 
@@ -71,9 +66,8 @@ class Game extends React.Component {
       if (isRunning && time > 0) {
         this.setState((prevState) => ({ time: prevState.time - 1 }));
       } else if (time === 0) {
-        this.setState({ disabled: true });
-        this.setState({ showColors: true });
-        this.setState({ isShowing: true });
+        this.setState({ disabled: true, showColors: true, isShowing: true });
+        this.stopTimer();
       }
     }, seconds);
     this.setState({ timeOutID });
@@ -85,12 +79,8 @@ class Game extends React.Component {
   };
 
   handleClick = () => {
-    this.setState({ disabled: false });
+    this.setState({ disabled: false, showColors: false, isShowing: false, time: 30 });
     this.setState((prev) => ({ count: prev.count + 1 }));
-    this.setState({ showColors: false });
-    this.setState({ isRunning: true });
-    this.setState({ time: 30 });
-    this.setState({ isShowing: false });
     this.startTimer();
     const { count, returnTrivia } = this.state;
     const { history } = this.props;
@@ -113,10 +103,9 @@ class Game extends React.Component {
   handleAnswer = (alternative) => {
     this.stopTimer();
     const initialScore = 10;
+    const { dispatch } = this.props;
     const { returnTrivia, count, time } = this.state;
-    this.setState({ showColors: true });
-    this.setState({ disabled: true });
-    this.setState({ isShowing: true });
+    this.setState({ showColors: true, disabled: true, isShowing: true });
     const answer = alternative === returnTrivia.results[count].correct_answer;
 
     if (answer) {
@@ -127,21 +116,17 @@ class Game extends React.Component {
       switch (returnTrivia.results[count].difficulty) {
       case 'easy':
         total = total + initialScore + (time) * easy;
-        this.setState((prev) => ({ score: prev.score + total }));
-
         break;
       case 'medium':
         total = total + initialScore + (time) * medium;
-        this.setState((prev) => ({ score: prev.score + total }));
-
         break;
       case 'hard':
         total = total + initialScore + (time) * hard;
-        this.setState((prev) => ({ score: prev.score + total }));
         break;
       default:
         break;
       }
+      dispatch(setScore(total));
     }
   };
 
