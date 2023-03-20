@@ -15,14 +15,14 @@ class Header extends React.Component {
   }
 
   render() {
-    const { name } = this.props;
+    const { name, score } = this.props;
     const { hash } = this.state;
     console.log(name);
     return (
       <header>
         <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt={ name } />
         <h2 data-testid="header-player-name">{name}</h2>
-        <h2 data-testid="header-score">0</h2>
+        <h2 data-testid="header-score">{score}</h2>
       </header>
     );
   }
@@ -30,9 +30,11 @@ class Header extends React.Component {
 const mapStateToProps = (state) => ({
   email: state.player.gravatarEmail,
   name: state.player.name,
+  score: state.player.score,
 });
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 export default connect(mapStateToProps)(Header);
