@@ -13,5 +13,8 @@ export const setScore = (score) => (
 
 export const setAcertos = () => ({
   type: 'ACERTOS',
-}
-);
+});
+
+export const setResetPlayer = () => ({
+  type: 'RESET-PLAYER',
+});
