@@ -24,6 +24,14 @@ const player = (state = INITIAL_STATE, action) => {
       ...state,
       assertions: state.assertions + 1,
     };
+  case 'RESET-PLAYER':
+    return {
+      ...state,
+      name: '',
+      assertions: 0,
+      score: 0,
+      gravatarEmail: '',
+    };
   default:
     return state;
   }
