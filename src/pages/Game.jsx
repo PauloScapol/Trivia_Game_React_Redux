@@ -19,9 +19,11 @@ class Game extends React.Component {
   };
 
   componentDidMount() {
+    const { difficulty, type, category } = this.props;
     this.startTimer();
     const token = localStorage.getItem('token');
-    fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    const URL = `https://opentdb.com/api.php?amount=5${category || ''}${difficulty || ''}${type || ''}&token=${token}`;
+    fetch(URL)
       .then((res) => res.json())
       .then((json) => {
         if (json.response_code === 0) {
@@ -197,5 +199,13 @@ Game.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  difficulty: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
 };
-export default connect(null, null)(Game);
+const mapStateToProps = (state) => ({
+  difficulty: state.settings.difficulty,
+  type: state.settings.type,
+  category: state.settings.category,
+});
+export default connect(mapStateToProps)(Game);

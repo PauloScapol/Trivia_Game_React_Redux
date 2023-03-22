@@ -18,3 +18,18 @@ export const setAcertos = () => ({
 export const setResetPlayer = () => ({
   type: 'RESET-PLAYER',
 });
+
+export const setCategory = (category) => ({
+  type: 'SET-CATEGORY',
+  payload: category,
+});
+
+export const setDifficulty = (difficulty) => ({
+  type: 'SET-DIFFICULTY',
+  payload: difficulty,
+});
+
+export const setType = (type) => ({
+  type: 'SET-TYPE',
+  payload: type,
+});
