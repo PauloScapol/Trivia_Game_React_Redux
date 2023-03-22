@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { setScore, setAcertos } from '../redux/actions';
-import '../styles/game.css';
+import trivia from '../assets/images/pngwing.com.png';
 
 class Game extends React.Component {
   state = {
@@ -139,22 +139,51 @@ class Game extends React.Component {
     return (
       <>
         <Header />
-        <h1>{time}</h1>
-        <h2>
+        <div className="flex mt-96 flex-col h-full relative">
+          <img
+            className="w-1/5 mx-auto absolute top-[-23rem] left-96"
+            src={ trivia }
+            alt="trivia"
+          />
           {returnTrivia.response_code === 0 ? (
-            <div>
-              <p data-testid="question-category">
-                {returnTrivia.results[count].category}
-              </p>
-              <p data-testid="question-text">
-                {returnTrivia.results[count].question}
-              </p>
-              <div data-testid="answer-options">
+            <div className="w-4/5 mx-auto flex h-64 justify-center">
+              <div className="flex-col flex w-4/6 mx-auto items-center relative">
+                <div className="bg-orange-400 text-center p-2 rounded-xl w-5/6 z-10">
+                  <p className="text-white text-xl" data-testid="question-category">
+                    {returnTrivia.results[count].category}
+                  </p>
+                </div>
+                <div
+                  className="w-11/12 rounded-md flex flex-col
+                    items-center justify-center h-64 m-auto
+                    absolute top-5 bg-white bg-opacity-70
+                    text-xl gap-3 backdrop-blur"
+                >
+                  <p
+                    data-testid="question-text"
+                    className="p-2 text-center"
+                  >
+                    {returnTrivia.results[count].question}
+                  </p>
+                  <h1 className="text-2xl text-red-500">
+                    Tempo:
+                    {time}
+                  </h1>
+                </div>
+              </div>
+              <div
+                data-testid="answer-options"
+                className="flex flex-col w-3/5 mx-auto items-center
+                  relative justify-center mt-11"
+              >
                 {alternatives.map((alternative, i) => {
                   const isCorrect = alternative
                   === returnTrivia.results[count].correct_answer;
                   return (
                     <button
+                      className="bg-blue-500 w-full my-1 hover:bg-blue-700
+                         text-white font-bold py-2 px-4 rounded-full text-center
+                         "
                       style={
                         showColors
                           ? {
@@ -179,17 +208,23 @@ class Game extends React.Component {
                     </button>
                   );
                 })}
+                {
+                  isShowing ? (
+                    <button
+                      className="bg-green-500 w-full my-1
+                         hover:bg-green-700 py-2 px-4 rounded-md
+                         text-white font-bold text-center"
+                      data-testid="btn-next"
+                      onClick={ () => this.handleClick() }
+                    >
+                      Next
+                    </button>
+                  ) : null
+                }
               </div>
-              {
-                isShowing ? (
-                  <button data-testid="btn-next" onClick={ () => this.handleClick() }>
-                    Next
-                  </button>
-                ) : null
-              }
             </div>
           ) : null}
-        </h2>
+        </div>
       </>
     );
   }
