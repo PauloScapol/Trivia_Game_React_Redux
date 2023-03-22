@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loginForm } from '../redux/actions/index';
-import '../styles/Login.css';
+// import '../styles/Login.css';
 
 class Login extends React.Component {
   state = {
@@ -19,7 +19,8 @@ class Login extends React.Component {
     const { history } = this.props;
     return (
       <form
-        className="login-inputs-button"
+        // className="login-inputs-button"
+        className="flex flex-col items-center"
         onSubmit={ async (e) => {
           e.preventDefault();
           const { dispatch } = this.props;
@@ -52,22 +53,24 @@ class Login extends React.Component {
             onChange={ (e) => this.handleChange(e) }
           />
         </label>
-        <button
-          className="button-play"
-          type="submit"
-          disabled={ !(email.length && name.length > 0) }
-          data-testid="btn-play"
-        >
-          Play
-        </button>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          className="button-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Configurações
-        </button>
+        <div className="flex">
+          <button
+            className="button-play"
+            type="submit"
+            disabled={ !(email.length && name.length > 0) }
+            data-testid="btn-play"
+          >
+            Play
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            className="button-settings"
+            onClick={ () => history.push('/settings') }
+          >
+            Configurações
+          </button>
+        </div>
       </form>
     );
   }

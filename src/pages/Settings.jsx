@@ -20,7 +20,8 @@ class Settings extends React.Component {
   render() {
     const { categories } = this.state;
     return (
-      <div data-testid="settings-title">
+      <div>
+        <h1 data-testid="settings-title">Settings</h1>
         <form>
           <label htmlFor="category">
             Category:
@@ -74,6 +75,7 @@ class Settings extends React.Component {
           </button>
         </form>
       </div>
+
     );
   }
 }
