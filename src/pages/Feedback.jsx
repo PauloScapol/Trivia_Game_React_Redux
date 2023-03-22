@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
+import { setResetPlayer } from '../redux/actions';
 
 class Feedback extends React.Component {
   componentDidMount() {
@@ -20,6 +21,12 @@ class Feedback extends React.Component {
       history.push('/');
     }
   }
+
+  handleClick = () => {
+    const { history, dispatch } = this.props;
+    dispatch(setResetPlayer());
+    history.push('/');
+  };
 
   render() {
     const minAssertions = 3;
@@ -43,6 +50,14 @@ class Feedback extends React.Component {
           >
             Ranking
           </button>
+
+          <button
+            type="button"
+            data-testid="btn-play-again"
+            onClick={ this.handleClick }
+          >
+            Play Again
+          </button>
         </div>
       </>
     );
@@ -62,5 +77,6 @@ Feedback.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps)(Feedback);
