@@ -32,18 +32,46 @@ class Feedback extends React.Component {
     const minAssertions = 3;
     const { score, assertions, history } = this.props;
     return (
-      <>
-        <Header />
-        <div>
-          <h1 data-testid="feedback-text">Feedback</h1>
-          <h1 data-testid="feedback-total-score">{score}</h1>
-          <h1 data-testid="feedback-total-question">{assertions}</h1>
-          <h1 data-testid="feedback-text">
+
+      <div className="text-center flex-col w-80 m-auto py-10 rounded-t-sm">
+        <div className="bg-white rounded-md">
+          <Header />
+          {/* <h1
+            className="p-1 text-green-500 text-3xl font-bold"
+            data-testid="feedback-text"
+          >
             {assertions < minAssertions ? 'Could be better...' : 'Well Done!'}
-          </h1>
+          </h1> */}
+          {
+            assertions < minAssertions ? (
+              <h1
+                className="p-1 text-red-500 text-3xl font-bold"
+                data-testid="feedback-text"
+              >
+                Could be better...
+              </h1>
+            ) : (
+              <h1
+                className="p-1 text-green-500 text-3xl font-bold"
+                data-testid="feedback-text"
+              >
+                Well Done!
+              </h1>)
+          }
+
+          <p className="p-1 text-gray-400" data-testid="feedback-total-question">
+            {`Você acertou ${assertions} questões!`}
+          </p>
+          <p className="p-1 text-gray-400" data-testid="feedback-total-score">
+            {`Um total de ${score} pontos!`}
+          </p>
+
         </div>
-        <div>
+
+        <div className="w-80">
           <button
+            className="px-10 py-1 my-1 mr-3 bg-blue-300 rounded-sm text-white
+            font-semibold"
             type="button"
             data-testid="btn-ranking"
             onClick={ () => history.push('/ranking') }
@@ -52,6 +80,8 @@ class Feedback extends React.Component {
           </button>
 
           <button
+            className="px-10 py-1 my-1  bg-green-400 rounded-sm text-white font-semibold
+            "
             type="button"
             data-testid="btn-play-again"
             onClick={ this.handleClick }
@@ -59,7 +89,7 @@ class Feedback extends React.Component {
             Play Again
           </button>
         </div>
-      </>
+      </div>
     );
   }
 }
