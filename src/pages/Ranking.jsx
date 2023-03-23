@@ -19,26 +19,82 @@ class Ranking extends Component {
     const { ranking } = this.state;
     const { history, dispatch } = this.props;
     return (
-      <>
-        <div data-testid="ranking-title">Ranking</div>
-        {ranking?.map((player, index) => (
-          <div key={ index }>
-            <img src={ `https://www.gravatar.com/avatar/${player.picture}` } alt="player" />
-            <h2 data-testid={ `player-name-${index}` }>{player.name}</h2>
-            <h2 data-testid={ `player-score-${index}` }>{player.score}</h2>
-          </div>
-        ))}
-        <button
-          type="button"
-          data-testid="btn-go-home"
-          onClick={ () => {
-            dispatch(setResetPlayer());
-            history.push('/');
-          } }
+      <div className="h-screen py-10">
+        <div
+          className="
+          w-1/2
+          m-auto
+          flex
+          flex-col
+          items-center
+          rounded-3xl
+          bg-white
+          bg-opacity-50
+          backdrop-blur-sm"
         >
-          Go home
-        </button>
-      </>
+          <div
+            className="text-5xl text-green-900 font-bold py-10"
+            data-testid="ranking-title"
+          >
+            Ranking
+          </div>
+          <div className="w-full flex flex-col content-between gap-5">
+            {ranking?.map((player, index) => (
+              <div
+                className="
+                  mx-10
+                  border
+                  border-black
+                  rounded-full
+                  flex
+                  flex-row
+                  items-center"
+                key={ index }
+              >
+                <section className="text-2xl w-2/3 pr-5 gap-5 flex items-center">
+                  <img className="rounded-full ml-5" src={ `https://www.gravatar.com/avatar/${player.picture}` } alt="player" />
+                  <h2 data-testid={ `player-name-${index}` }>{player.name}</h2>
+                </section>
+                <h2
+                  className="
+                    border rounded-full bg-white bg-opacity-50
+                    text-2xl font-semibold
+                    w-1/3 py-6
+                    flex justify-around"
+                  data-testid={ `player-score-${index}` }
+                >
+                  🏅
+                  {' '}
+                  {player.score}
+                  {' '}
+                  Points
+                </h2>
+              </div>
+            ))}
+          </div>
+          <button
+            className="
+              inline-block
+              px-6 py-4
+              cursor-pointer
+              text-center text-white
+              bg-green-600 hover:bg-green-800
+              active:bg-green-800
+              active:shadow-xl
+              rounded-lg
+              shadow-lg
+              my-5"
+            type="button"
+            data-testid="btn-go-home"
+            onClick={ () => {
+              dispatch(setResetPlayer());
+              history.push('/');
+            } }
+          >
+            Go home
+          </button>
+        </div>
+      </div>
     );
   }
 }
