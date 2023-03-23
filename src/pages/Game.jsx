@@ -139,9 +139,9 @@ class Game extends React.Component {
     return (
       <>
         <Header />
-        <div className="flex mt-96 flex-col h-full relative">
+        <div className="flex mt-96 flex-col h-60 relative">
           <img
-            className="w-1/5 mx-auto absolute top-[-23rem] left-96"
+            className="w-1/6 mx-auto absolute top-[-20rem] left-[26rem]"
             src={ trivia }
             alt="trivia"
           />
@@ -181,7 +181,7 @@ class Game extends React.Component {
                   === returnTrivia.results[count].correct_answer;
                   return (
                     <button
-                      className="bg-blue-500 w-full my-1 hover:bg-blue-700
+                      className="bg-blue-500 w-2/3 my-1 hover:bg-blue-700
                          text-white font-bold py-2 px-4 rounded-full text-center
                          "
                       style={
@@ -211,7 +211,7 @@ class Game extends React.Component {
                 {
                   isShowing ? (
                     <button
-                      className="bg-green-500 w-full my-1
+                      className="bg-green-500 w-2/3 my-1
                          hover:bg-green-700 py-2 px-4 rounded-md
                          text-white font-bold text-center"
                       data-testid="btn-next"

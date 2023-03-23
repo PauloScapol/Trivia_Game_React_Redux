@@ -4,9 +4,6 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/index';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
-// console.log(store.getState());
-
-store.subscribe(() => console.log(store.getState()));
 
 if (window.Cypress) {
   window.store = store;
