@@ -17,7 +17,6 @@ class Header extends React.Component {
   render() {
     const { name, score } = this.props;
     const { hash } = this.state;
-    console.log(name);
     return (
       <header className="h-32 flex bg-white z-20">
         <div className="w-2/3" />

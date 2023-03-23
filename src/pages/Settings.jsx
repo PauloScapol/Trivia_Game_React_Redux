@@ -30,6 +30,7 @@ class Settings extends React.Component {
               id="category"
               onChange={ (event) => this.setState({ category: event.target.value }) }
             >
+              <option value="">All</option>
               {categories?.map((category) => (
                 <option key={ category.id } value={ category.id }>
                   {category.name}
@@ -44,6 +45,7 @@ class Settings extends React.Component {
               id="difficulty"
               onChange={ (event) => this.setState({ difficulty: event.target.value }) }
             >
+              <option value="">All</option>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
@@ -56,6 +58,7 @@ class Settings extends React.Component {
               id="type"
               onChange={ (event) => this.setState({ type: event.target.value }) }
             >
+              <option value="">All</option>
               <option value="multiple">Multiple Choice</option>
               <option value="boolean">True / False</option>
             </select>

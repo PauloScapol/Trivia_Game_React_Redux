@@ -8,17 +8,25 @@ import { setResetPlayer } from '../redux/actions';
 class Feedback extends React.Component {
   componentDidMount() {
     const { score, name, email, history } = this.props;
+    const noEqualIndex = -1;
+    if (email === '') history.push('/');
     const LS = localStorage.getItem('players')
       ? JSON.parse(localStorage.getItem('players')) : [];
-    if (name !== '' && email !== '') {
+    const findPlayerIndex = LS.findIndex((player) => player.picture
+    === md5(email).toString());
+    if (findPlayerIndex !== noEqualIndex) {
       const newPlayer = {
         name,
-        score,
+        score: LS[findPlayerIndex].score > score ? LS[findPlayerIndex].score : score,
         picture: md5(email).toString(),
       };
+      LS.splice(findPlayerIndex, 1);
       localStorage.setItem('players', JSON.stringify([...LS, newPlayer]));
-    } else {
-      history.push('/');
+    } else if (email !== '') {
+      localStorage.setItem(
+        'players',
+        JSON.stringify([...LS, { name, score, picture: md5(email).toString() }]),
+      );
     }
   }
 
@@ -32,64 +40,59 @@ class Feedback extends React.Component {
     const minAssertions = 3;
     const { score, assertions, history } = this.props;
     return (
+      <>
+        <Header />
+        <div className="text-center flex-col w-80 m-auto py-10 rounded-t-sm">
+          <div className="bg-white rounded-md">
+            {
+              assertions < minAssertions ? (
+                <h1
+                  className="p-1 text-red-500 text-3xl font-bold"
+                  data-testid="feedback-text"
+                >
+                  Could be better...
+                </h1>
+              ) : (
+                <h1
+                  className="p-1 text-green-500 text-3xl font-bold"
+                  data-testid="feedback-text"
+                >
+                  Well Done!
+                </h1>)
+            }
 
-      <div className="text-center flex-col w-80 m-auto py-10 rounded-t-sm">
-        <div className="bg-white rounded-md">
-          <Header />
-          {/* <h1
-            className="p-1 text-green-500 text-3xl font-bold"
-            data-testid="feedback-text"
-          >
-            {assertions < minAssertions ? 'Could be better...' : 'Well Done!'}
-          </h1> */}
-          {
-            assertions < minAssertions ? (
-              <h1
-                className="p-1 text-red-500 text-3xl font-bold"
-                data-testid="feedback-text"
-              >
-                Could be better...
-              </h1>
-            ) : (
-              <h1
-                className="p-1 text-green-500 text-3xl font-bold"
-                data-testid="feedback-text"
-              >
-                Well Done!
-              </h1>)
-          }
+            <p className="p-1 text-gray-400" data-testid="feedback-total-question">
+              {`Você acertou ${assertions} questões!`}
+            </p>
+            <p className="p-1 text-gray-400" data-testid="feedback-total-score">
+              {`Um total de ${score} pontos!`}
+            </p>
 
-          <p className="p-1 text-gray-400" data-testid="feedback-total-question">
-            {`Você acertou ${assertions} questões!`}
-          </p>
-          <p className="p-1 text-gray-400" data-testid="feedback-total-score">
-            {`Um total de ${score} pontos!`}
-          </p>
+          </div>
 
-        </div>
-
-        <div className="w-80">
-          <button
-            className="px-10 py-1 my-1 mr-3 bg-blue-300 rounded-sm text-white
+          <div className="w-80">
+            <button
+              className="px-10 py-1 my-1 mr-3 bg-blue-300 rounded-sm text-white
             font-semibold"
-            type="button"
-            data-testid="btn-ranking"
-            onClick={ () => history.push('/ranking') }
-          >
-            Ranking
-          </button>
+              type="button"
+              data-testid="btn-ranking"
+              onClick={ () => history.push('/ranking') }
+            >
+              Ranking
+            </button>
 
-          <button
-            className="px-10 py-1 my-1  bg-green-400 rounded-sm text-white font-semibold
+            <button
+              className="px-10 py-1 my-1  bg-green-400 rounded-sm text-white font-semibold
             "
-            type="button"
-            data-testid="btn-play-again"
-            onClick={ this.handleClick }
-          >
-            Play Again
-          </button>
+              type="button"
+              data-testid="btn-play-again"
+              onClick={ this.handleClick }
+            >
+              Play Again
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
