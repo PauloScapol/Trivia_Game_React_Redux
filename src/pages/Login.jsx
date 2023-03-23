@@ -20,7 +20,9 @@ class Login extends React.Component {
     return (
       <form
         // className="login-inputs-button"
-        className="flex flex-col items-center"
+        className="flex flex-col items-center
+        rounded-lg shadow-lg bg-indigo-400 h-80
+        justify-center mt-12 w-6/12 m-auto"
         onSubmit={ async (e) => {
           e.preventDefault();
           const { dispatch } = this.props;
@@ -37,7 +39,8 @@ class Login extends React.Component {
             type="email"
             name="email"
             id="email"
-            className="email"
+            className="border-green-300 h-8 rounded-2xl
+            mt-10 px-7 w-96 mb-3"
             data-testid="input-gravatar-email"
             onChange={ (e) => this.handleChange(e) }
           />
@@ -48,14 +51,17 @@ class Login extends React.Component {
             type="text"
             name="name"
             id="password"
-            className="password"
+            className="border-green-300 h-8 rounded-2xl
+            mt-10 px-7 w-96 mb-3"
             data-testid="input-player-name"
             onChange={ (e) => this.handleChange(e) }
           />
         </label>
         <div className="flex">
           <button
-            className="button-play"
+            className="bg-green-400 border-none rounded-xl shadow-inner
+            text-black flex text-lg h-10 justify-center mb-7 mr-7
+            p-2 text-center w-48"
             type="submit"
             disabled={ !(email.length && name.length > 0) }
             data-testid="btn-play"
@@ -65,7 +71,9 @@ class Login extends React.Component {
           <button
             type="button"
             data-testid="btn-settings"
-            className="button-settings"
+            className="bg-blue-800 border-none rounded-xl shadow-inner
+            text-black flex text-lg h-10 justify-center mb-7 mr-7
+            p-2 text-center w-48"
             onClick={ () => history.push('/settings') }
           >
             Configurações
