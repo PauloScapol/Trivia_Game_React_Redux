@@ -57,7 +57,7 @@ Foi desenvolvido, em equipe, um Jogo de perguntas e respostas baseado no jogo Tr
 
 ## Demonstração da aplicação
 
-:construction: EM CONSTRUÇÃO :construction:
+![caption](https://github.com/PauloScapol/GIFS/blob/main/Trivia.gif)
 
 ---
 
